@@ -1,9 +1,10 @@
-use leptos::{component, IntoView, view};
 use crate::icon::heroic_micro_icon::HeroicMicroIcon;
 use crate::icon::heroic_mini_icon::HeroicMiniIcon;
 use crate::icon::heroic_outline_icon::HeroicOutlineIcon;
 use crate::icon::heroic_solid_icon::HeroicSolidIcon;
+use leptos::{component, view, IntoView};
 
+#[derive(Clone, Copy)]
 pub enum HeroicIconsType {
     Outline,
     Solid,
@@ -11,8 +12,13 @@ pub enum HeroicIconsType {
     Micro,
 }
 
+#[derive(Clone, Copy)]
 pub enum HeroicIcons {
     Home,
+    Calendar,
+    CalendarDays,
+    Users,
+    UserGroup,
 }
 
 #[component]
@@ -24,8 +30,3 @@ pub fn Icon(icon: HeroicIcons, icon_type: HeroicIconsType) -> impl IntoView {
         HeroicIconsType::Micro => view! { <HeroicMicroIcon icon={icon}/> },
     }
 }
-
-
-
-
-

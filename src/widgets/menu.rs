@@ -23,9 +23,18 @@ impl Page {
 pub fn MenuComponent() -> impl IntoView {
     let linked_pages = [
         Page::new("Home", "", HeroicIcons::Home, HeroicIconsType::Outline),
-        Page::new("Home", "", HeroicIcons::Home, HeroicIconsType::Solid),
-        Page::new("Ho", "", HeroicIcons::Home, HeroicIconsType::Mini),
-        Page::new("Ho", "", HeroicIcons::Home, HeroicIconsType::Micro),
+        Page::new(
+            "Events",
+            "",
+            HeroicIcons::CalendarDays,
+            HeroicIconsType::Solid,
+        ),
+        Page::new(
+            "Your characters",
+            "",
+            HeroicIcons::UserGroup,
+            HeroicIconsType::Solid,
+        ),
     ];
 
     view! {
@@ -34,7 +43,7 @@ pub fn MenuComponent() -> impl IntoView {
                 view! {
                     <li>
                         <a href={p.link.clone()}>
-                            <Icon icon=HeroicIcons::Home icon_type=HeroicIconsType::Solid/>
+                            <Icon icon=p.icon icon_type=p.icon_type/>
                             {p.label.clone()}
                         </a>
                     </li>
