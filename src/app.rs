@@ -1,8 +1,8 @@
 use crate::error_template::{AppError, ErrorTemplate};
+use crate::widgets::menu::MenuComponent;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
-use crate::widgets::menu::MenuComponent;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -17,7 +17,7 @@ pub fn App() -> impl IntoView {
         <Stylesheet id="leptos" href="/pkg/celica-moe.css"/>
 
         // sets the document title
-        <Title text="Welcome to Leptos"/>
+        <Title text="Celica.moe"/>
 
         // content for this welcome page
         <Router fallback=|| {
@@ -28,12 +28,14 @@ pub fn App() -> impl IntoView {
             }
             .into_view()
         }>
-            <main class="flex justify-center w-full h-max">
+            <main class="inline-block">
                 <MenuComponent/>
-                <div class="w-full">
-                    <Routes>
-                        <Route path="" view=crate::pages::home::HomePage/>
-                    </Routes>
+                <div class="pl-64 w-screen">
+                    <div class="flex justify-center">
+                        <Routes>
+                                <Route path="" view=crate::pages::home::HomePage/>
+                        </Routes>
+                    </div>
                 </div>
             </main>
         </Router>
