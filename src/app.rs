@@ -3,6 +3,9 @@ use crate::widgets::menu::MenuComponent;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
+use crate::pages::characters::CharactersPages;
+use crate::pages::events::EventsPages;
+use crate::pages::home::HomePage;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -30,10 +33,12 @@ pub fn App() -> impl IntoView {
         }>
             <main class="inline-block">
                 <MenuComponent/>
-                <div class="pl-64 w-screen">
-                    <div class="flex justify-center">
+                <div class="pl-64 w-screen h-screen">
+                    <div class="m-10">
                         <Routes>
-                                <Route path="" view=crate::pages::home::HomePage/>
+                                <Route path="" view=HomePage/>
+                                <Route path="/events" view=EventsPages/>
+                                <Route path="/characters" view=CharactersPages/>
                         </Routes>
                     </div>
                 </div>
