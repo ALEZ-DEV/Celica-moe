@@ -52,7 +52,7 @@ pub fn ErrorTemplate(
     }
 
     view! {
-        <h1>{if errors.len() > 1 {"Errors"} else {"Error"}}</h1>
+        //<h1>{if errors.len() > 1 {"Errors"} else {"Error"}}</h1>
         <For
             // a function that returns the items we're iterating over; a signal is fine
             each= move || {errors.clone().into_iter().enumerate()}
@@ -63,8 +63,12 @@ pub fn ErrorTemplate(
                 let error_string = error.1.to_string();
                 let error_code= error.1.status_code();
                 view! {
-                    <h2>{error_code.to_string()}</h2>
-                    <p>"Error: " {error_string}</p>
+                    <img src="sad_lucia.png" class="mb-1 size-44"/>
+                    <h2 class="my-1 text-center">{error_code.to_string()}</h2>
+                    <p class="mt-1 text-center">"Error: " {error_string}</p>
+                    <div class="flex justify-center">
+                        <a href="/" class="btn">Go home</a>
+                    </div>
                 }
             }
         />
