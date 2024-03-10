@@ -31,15 +31,17 @@ pub fn App() -> impl IntoView {
             }
             .into_view()
         }>
-            <main class="inline-block">
+            <main>
                 <MenuComponent/>
-                <div class="pl-64 w-screen h-screen">
-                    <div class="m-10">
-                        <Routes>
-                                <Route path="" view=HomePage/>
-                                <Route path="/events" view=EventsPages/>
-                                <Route path="/characters" view=CharactersPages/>
-                        </Routes>
+                <div class="pl-64 w-screen">
+                    <div class="flex justify-center">
+                        <div class="m-10 prose block">
+                            <Routes>
+                                    <Route path="" view=HomePage/>
+                                    <Route path="/events" view=EventsPages/>
+                                    <Route path="/characters" view=CharactersPages/>
+                            </Routes>
+                        </div>
                     </div>
                 </div>
             </main>

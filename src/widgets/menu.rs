@@ -52,14 +52,17 @@ pub fn MenuComponent() -> impl IntoView {
         "/resigned.png",
         "/shy.png",
         "/winky_face.png",
+        // If you want to add some stickers, put it in the /public folder and make a PR
     ];
     let mut rng = rand::thread_rng();
 
     view! {
         <aside class="menu bg-base-200 flex justify-start fixed top-0 left-0 z-40 w-64 h-screen">
 
-            <img src={*img_src.get(rng.gen_range(0..img_src.len())).unwrap()} class="size-40 mx-auto rounded-md"/>
-            <h2 class="mx-auto">Celica.moe</h2>
+            <div class="prose">
+                <img src={*img_src.get(rng.gen_range(0..img_src.len())).unwrap()} class="size-40 mx-auto my-1 rounded-md"/>
+                <h2 class="mx-auto my-0 text-center">Celica.moe</h2>
+            </div>
 
             {linked_pages.iter().map(|p| {
                 view! {
