@@ -1,5 +1,5 @@
 use crate::error_template::{AppError, ErrorTemplate};
-use crate::widgets::menu::MenuComponent;
+use crate::components::menu::MenuComponent;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
@@ -35,7 +35,7 @@ pub fn App() -> impl IntoView {
                 <MenuComponent/>
                 <div class="pl-64 w-screen">
                     <div class="flex justify-center">
-                        <div class="m-10 prose block">
+                        <div class="m-10 prose block w-full max-w-full">
                             <Routes>
                                     <Route path="" view=HomePage/>
                                     <Route path="/events" view=EventsPages/>

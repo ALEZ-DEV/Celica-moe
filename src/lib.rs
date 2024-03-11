@@ -1,10 +1,11 @@
 pub mod pages;
-pub mod widgets;
+pub mod components;
 pub mod app;
 pub mod error_template;
 #[cfg(feature = "ssr")]
 pub mod fileserv;
 pub mod icon;
+pub mod huaxu;
 
 #[cfg(feature = "hydrate")]
 #[wasm_bindgen::prelude::wasm_bindgen]
