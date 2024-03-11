@@ -63,7 +63,7 @@ pub fn ErrorTemplate(
                 let error_string = error.1.to_string();
                 let error_code= error.1.status_code();
                 view! {
-                    <img src="sad_lucia.png" class="mb-1 size-44"/>
+                    <img src="sad_lucia.png" class="mb-1 size-44 mx-auto"/>
                     <h2 class="my-1 text-center">{error_code.to_string()}</h2>
                     <p class="mt-1 text-center">"Error: " {error_string}</p>
                     <div class="flex justify-center">
