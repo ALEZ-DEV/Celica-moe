@@ -1,4 +1,6 @@
-<img src="/public/celica_pointing.png" alt="Website screenshot" width="300" height="300">
+<p align="center">
+    <img src="/public/celica_pointing.png" alt="Website screenshot" width="300" height="300">
+</p>
 
 <div align="center">
     <h1>Celica.moe</h1>
