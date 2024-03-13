@@ -3,7 +3,9 @@
 </p>
 
 <div align="center">
-    <h1>Celica.moe</h1>
+    <a href="https://celica.moe/" target="_blank">
+      <h1>Celica.moe</h1>
+    </a>
 </div>
 
 ## Screenshot
