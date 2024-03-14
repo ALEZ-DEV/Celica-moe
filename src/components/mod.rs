@@ -1,3 +1,3 @@
 pub mod menu;
-pub mod event;
+pub mod calendar;
 mod base;

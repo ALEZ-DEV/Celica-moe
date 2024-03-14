@@ -4,7 +4,7 @@ use crate::huaxu::api::fetch_calendar;
 use crate::huaxu::models::calendar::Calendar;
 
 #[component]
-pub fn EventComponent() -> impl IntoView {
+pub fn CalendarComponent() -> impl IntoView {
 
     let (calendar, set_calendar) = create_signal(None::<Calendar>);
 

@@ -3,8 +3,9 @@ use crate::components::menu::MenuComponent;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
+use crate::components::calendar::CalendarComponent;
 use crate::pages::characters::CharactersPages;
-use crate::pages::events::EventsPages;
+use crate::pages::calendar::CalendarPages;
 use crate::pages::home::HomePage;
 
 #[component]
@@ -38,7 +39,7 @@ pub fn App() -> impl IntoView {
                         <div class="m-10 prose block w-full max-w-full">
                             <Routes>
                                     <Route path="" view=HomePage/>
-                                    <Route path="/events" view=EventsPages/>
+                                    <Route path="/calendar" view=CalendarComponent/>
                                     <Route path="/characters" view=CharactersPages/>
                             </Routes>
                         </div>

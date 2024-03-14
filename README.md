@@ -17,7 +17,7 @@
 - [ ] Calendar
 - [ ] Current banner overview
 - [ ] Player overview
-  - [ ] Search player (by uuid and username)
+  - [ ] Search player (by uid and username)
   - [ ] Player detail
 
 ## Running the project

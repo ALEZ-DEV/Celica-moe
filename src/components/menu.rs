@@ -25,8 +25,8 @@ pub fn MenuComponent() -> impl IntoView {
     let linked_pages = [
         Page::new("Home", "/", HeroicIcons::Home, HeroicIconsType::Outline),
         Page::new(
-            "Events",
-            "/events",
+            "Calendar",
+            "/calendar",
             HeroicIcons::CalendarDays,
             HeroicIconsType::Solid,
         ),

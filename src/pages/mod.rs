@@ -1,3 +1,3 @@
 pub mod home;
-pub mod events;
+pub mod calendar;
 pub mod characters;
