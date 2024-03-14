@@ -18,31 +18,52 @@ pub fn CalendarComponent() -> impl IntoView {
 
     view! {
         <div class={DEFAULT_TAILWIND_CLASS}>
-            <div class="bg-base-content w-[2px] bg-base-content absolute inset-x-2/3" style={move || {
-                            // set the height based on the number of item in the grid, one item height is 14 tailwind height * 0.25rem
-                            let style = "height: ";
-                            let height = match calendar() {
-                                Some(c) => format!("{}rem;", c.data.entries.len() as f32 * 14.0 * 0.25),
-                                None => "0rem;".to_string(),
-                            };
-                            format!("{} {}", style, height)
-                        }}></div>
-            <div class="grid grid-cols-1 grid-rows-2">
-                {move || match calendar() {
-                    Some(c) => c.data.entries.iter().map(|i| view! {
-                            <div class="h-14">
-                                <div class="h-12 my-1.5 rounded-lg bg-fixed bg-right bg-local" style="background-image: url('https://static.miraheze.org/pgrwiki/c/c3/Bannercweave.png')">
-                                    <div class="h-full rounded-lg bg-transparent px-2 text-left text-white font-bold bg-gradient-to-r from-black">
-                                        {&i.name}
+            <div class="grid grid-cols-5 text-center mb-0">
+                <div class="badge mx-auto badge-outline">"2 days ago"</div>
+                <div class="badge mx-auto badge-outline">"Yesterday"</div>
+                <div class="badge mx-auto badge-neutral">"Today"</div>
+                <div class="badge mx-auto badge-outline">"Tomorrow"</div>
+                <div class="badge mx-auto badge-outline">"In 2 days"</div>
+            </div>
+            <div class="grid grid-rows-1 w-full">
+                <div class={
+                        let class = "flex flex-col col-start-1 row-start-1".to_string();
+                        match calendar() {
+                            Some(c) =>  format!("{} grid-rows-{}", class, c.data.entries.len()),
+                            None => class,
+                        }
+                    }>
+                    {move || match calendar() {
+                        Some(c) => c.data.entries.iter().enumerate().map(|(i, d)| view! {
+                                <div class={if i == 0 { "h-14 mt-5" } else { "h-14" }}>
+                                    <div class={format!("h-12 my-1.5 rounded-lg bg-fixed bg-right bg-local child-with-margin-{}", i)} style={format!("background-image: url('{}')", d.get_banner_link())}>
+                                        <div class="h-full rounded-lg bg-transparent px-2 text-left text-white font-bold bg-gradient-to-r from-black">
+                                            {&d.name}
+                                            <br></br>
+                                            {d.time_left().to_string()}
+                                            /
+                                            {d.time_passed().to_string()}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                    }).collect_view(),
-                    None => view! {
+                                <style>{format!(r#"
+                                  .child-with-margin-{} {{
+                                    margin-right: calc(100% / 5 * {});
+                                    margin-left: calc(100% / 5 * {});
+                                  }}"#, i,
+                                        if d.time_left().is_negative() { 0 } else { d.time_left() },
+                                        if d.time_passed().is_negative() { 0 } else { d.time_passed() })}
+                                </style>
+                        }).collect_view(),
+                        None => view! {
+                            <span class="loading loading-spinner loading-lg m-auto"></span>
+                        }.into_view()
+                    }}
+                </div>
 
-                        <span class="loading loading-spinner loading-lg m-auto"></span>
-                    }.into_view()
-                }}
+                <div class="#h-full w-full col-start-1 row-start-1">
+                    <div class="bg-base-content w-[2px] bg-base-content col-span-1 h-full mx-auto"></div>
+                </div>
             </div>
         </div>
     }
