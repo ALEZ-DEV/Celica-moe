@@ -15,6 +15,8 @@
 ## Todo
 
 - [ ] Calendar
+  - [ ] Overview (In progress)
+  - [ ] Detail
 - [ ] Current banner overview
 - [ ] Player overview
   - [ ] Search player (by uid and username)
