@@ -11,7 +11,8 @@ pub fn CalendarComponent() -> impl IntoView {
     spawn_local(async move {
         let future_calendar = fetch_calendar().await;
 
-        if let Ok(new_c) = future_calendar {
+        if let Ok(mut new_c) = future_calendar {
+            new_c.data.filter_date();
             set_calendar.update(|mut c| *c = Some(new_c));
         }
     });
@@ -27,7 +28,7 @@ pub fn CalendarComponent() -> impl IntoView {
             </div>
             <div class="grid grid-rows-1 w-full">
                 <div class={
-                        let class = "flex flex-col col-start-1 row-start-1".to_string();
+                        let class = "flex flex-col space-y-4 col-start-1 row-start-1 mb-4".to_string();
                         match calendar() {
                             Some(c) =>  format!("{} grid-rows-{}", class, c.data.entries.len()),
                             None => class,
@@ -36,13 +37,18 @@ pub fn CalendarComponent() -> impl IntoView {
                     {move || match calendar() {
                         Some(c) => c.data.entries.iter().enumerate().map(|(i, d)| view! {
                                 <div class={if i == 0 { "h-14 mt-5" } else { "h-14" }}>
-                                    <div class={format!("h-12 my-1.5 rounded-lg bg-fixed bg-right bg-local child-with-margin-{}", i)} style={format!("background-image: url('{}')", d.get_banner_link())}>
+                                    <div class={format!("h-16 my-1.5 rounded-lg bg-fixed bg-right bg-local child-with-margin-{}", i)} style={format!("background-image: url('{}')", d.get_banner_link())}>
                                         <div class="h-full rounded-lg bg-transparent px-2 text-left text-white font-bold bg-gradient-to-r from-black">
-                                            {&d.name}
-                                            <br></br>
-                                            {d.time_left().to_string()}
-                                            /
-                                            {d.time_passed().to_string()}
+                                            <h3 class="my-0">{&d.name}</h3>
+                                            {if d.has_left(0) {
+                                                view! {
+                                                    <h4>Ended</h4>
+                                                }
+                                            } else {
+                                                view! {
+                                                    <h4>Time left : {d.time_left()} days</h4>
+                                                }
+                                            }}
                                         </div>
                                     </div>
                                 </div>
@@ -51,8 +57,8 @@ pub fn CalendarComponent() -> impl IntoView {
                                     margin-right: calc(100% / 5 * {});
                                     margin-left: calc(100% / 5 * {});
                                   }}"#, i,
-                                        if d.time_left().is_negative() { 0 } else { d.time_left() },
-                                        if d.time_passed().is_negative() { 0 } else { d.time_passed() })}
+                                        if d.time_left() < 3 { 3 - d.time_left() } else { 0 },
+                                        if d.time_passed() < 3 { 3 - d.time_passed() } else { 0 })}
                                 </style>
                         }).collect_view(),
                         None => view! {
@@ -61,7 +67,7 @@ pub fn CalendarComponent() -> impl IntoView {
                     }}
                 </div>
 
-                <div class="#h-full w-full col-start-1 row-start-1">
+                <div class="h-full w-full col-start-1 row-start-1">
                     <div class="bg-base-content w-[2px] bg-base-content col-span-1 h-full mx-auto"></div>
                 </div>
             </div>

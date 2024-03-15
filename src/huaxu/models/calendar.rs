@@ -1,5 +1,5 @@
 use std::ops::Add;
-use chrono::{DateTime, Duration, FixedOffset, Local, TimeDelta, Utc};
+use chrono::{Datelike, DateTime, Duration, FixedOffset, Local, TimeDelta, Utc};
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -40,31 +40,58 @@ pub struct Item {
     pub icon_big: String,
 }
 
+impl Data {
+    pub fn filter_date(&mut self) {
+        self.entries = self.clone().entries.into_iter().filter(|e| !e.has_left(3)).filter(|e| e.has_begin(3)).collect();
+    }
+}
+
 impl Entry {
     pub fn get_banner_link(&self) -> String {
         format!("https://assets.huaxu.app/cur/{}.png", self.banner)
     }
 
-    pub fn time_left(&self) -> i64 {
-        let current_time = Local::now().to_utc();
-        let event  = DateTime::parse_from_rfc3339(&self.end_time).unwrap().to_utc();
+    pub fn get_start_time(&self) -> DateTime<Utc> {
+        DateTime::parse_from_rfc3339(&self.start_time).unwrap().to_utc()
+    }
 
-        let time_left = current_time - event;
-        time_left.num_days() * -1
+    pub fn get_end_time(&self) -> DateTime<Utc> {
+        DateTime::parse_from_rfc3339(&self.end_time).unwrap().to_utc()
     }
 
     pub fn time_passed(&self) -> i64 {
         let current_time = Local::now().to_utc();
-        let event  = DateTime::parse_from_rfc3339(&self.start_time).unwrap().to_utc();
+        let start_time = self.get_start_time();
 
-        let time_left = current_time - event;
-        time_left.num_days() * -1 + 3
+        let time_left =  current_time - start_time;
+
+        if start_time.year() == 1970 {
+            0
+        } else {
+            time_left.num_days()
+        }
     }
 
-    // pub fn get_start_days_within_range_5(&self) -> i64 {
-    //     let start_time = DateTime::parse_from_rfc3339(&self.start_time).unwrap().to_utc();
-    //     let time_before_the_week_end = Local::now().to_utc() + TimeDelta::try_days(3);
+    pub fn time_left(&self) -> i64 {
+        let current_time = Local::now().to_utc();
+        let end_time = self.get_end_time();
 
+        let time_left = end_time - current_time;
 
-    // }
+        if end_time.year() == 1970 {
+            0
+        } else {
+            time_left.num_days()
+        }
+    }
+
+    pub fn has_left(&self, expire_range: i64) -> bool {
+        let end_time = Local::now().to_utc() - TimeDelta::try_days(expire_range).unwrap();
+        end_time > self.get_end_time()
+    }
+
+    pub fn has_begin(&self, begin_range: i64) -> bool {
+        let begin_time = Local::now().to_utc() + TimeDelta::try_days(begin_range).unwrap();
+        begin_time > self.get_start_time()
+    }
 }
