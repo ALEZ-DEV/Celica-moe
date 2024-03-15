@@ -42,7 +42,7 @@ pub struct Item {
 
 impl Entry {
     pub fn get_banner_link(&self) -> String {
-        format!("https://assets.huaxu.app/cur/image/{}.png", self.banner)
+        format!("https://assets.huaxu.app/cur/{}.png", self.banner)
     }
 
     pub fn time_left(&self) -> i64 {
