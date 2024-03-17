@@ -37,7 +37,7 @@ pub fn CalendarComponent() -> impl IntoView {
                     {move || match calendar() {
                         Some(c) => c.data.entries.iter().enumerate().map(|(i, d)| view! {
                                 <div class={if i == 0 { "h-14 mt-5" } else { "h-14" }}>
-                                    <div class={format!("h-16 my-1.5 rounded-lg bg-fixed bg-right bg-local child-with-margin-{}", i)} style={format!("background-image: url('{}')", d.get_banner_link())}>
+                                    <div class={format!("h-16 my-1.5 rounded-lg bg-fixed bg-right bg-local hover:border-2 hover:border-white child-with-margin-{}", i)} style={format!("background-image: url('{}')", d.get_banner_link())}>
                                         <div class="h-full rounded-lg bg-transparent px-2 text-left text-white font-bold bg-gradient-to-r from-black">
                                             <h3 class="my-0">{&d.name}</h3>
                                             {if d.has_left(0) {
@@ -67,7 +67,7 @@ pub fn CalendarComponent() -> impl IntoView {
                     }}
                 </div>
 
-                <div class="h-full w-full col-start-1 row-start-1">
+                <div class="h-full w-full col-start-1 row-start-1 hover:pointer-events-none">
                     <div class="bg-base-content w-[2px] bg-base-content col-span-1 h-full mx-auto"></div>
                 </div>
             </div>
