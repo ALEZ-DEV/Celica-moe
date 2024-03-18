@@ -45,8 +45,14 @@ pub fn CalendarComponent() -> impl IntoView {
                                                     <h4>Ended</h4>
                                                 }
                                             } else {
-                                                view! {
-                                                    <h4>Time left : {d.time_left()} days</h4>
+                                                if d.has_few_hour_left() {
+                                                    view! {
+                                                        <h4>Time left : few hours left</h4>
+                                                    }
+                                                } else {
+                                                    view! {
+                                                        <h4>Time left : {d.time_left()} days</h4>
+                                                    }
                                                 }
                                             }}
                                         </div>

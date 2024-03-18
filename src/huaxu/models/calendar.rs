@@ -81,13 +81,21 @@ impl Entry {
         if end_time.year() == 1970 {
             0
         } else {
-            time_left.num_days()
+            // add 1 because when a day is like: 1 days and 5 hours,
+            // we want to count the ignored hours, so we add 1
+            time_left.num_days() + 1
         }
     }
 
     pub fn has_left(&self, expire_range: i64) -> bool {
         let end_time = Local::now().to_utc() - TimeDelta::try_days(expire_range).unwrap();
         end_time > self.get_end_time()
+    }
+
+    pub fn has_few_hour_left(&self) -> bool {
+        let current_time = Local::now().to_utc();
+        let time_left = current_time - self.get_end_time();
+        time_left.num_days() == 0 && time_left.num_hours() >= 0
     }
 
     pub fn has_begin(&self, begin_range: i64) -> bool {
