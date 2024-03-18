@@ -39,7 +39,7 @@ pub fn App() -> impl IntoView {
                         <div class="m-10 prose block w-full max-w-full">
                             <Routes>
                                     <Route path="" view=HomePage/>
-                                    <Route path="/calendar" view=CalendarComponent/>
+                                    <Route path="/calendar" view=CalendarPages/>
                                     <Route path="/characters" view=CharactersPages/>
                             </Routes>
                         </div>

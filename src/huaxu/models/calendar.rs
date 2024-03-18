@@ -1,5 +1,6 @@
 use std::ops::Add;
 use chrono::{Datelike, DateTime, Duration, FixedOffset, Local, TimeDelta, Utc};
+use leptos::{create_signal, ReadSignal, RwSignal, WriteSignal};
 use serde::{Deserialize, Serialize};
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -26,6 +27,10 @@ pub struct Entry {
     pub items: Vec<Item>,
     pub start_time: String,
     pub end_time: String,
+    #[serde(skip)]
+    pub selected: bool,
+    //#[serde(skip)]
+    //pub set_selected: Option<WriteSignal<bool>>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -44,6 +49,15 @@ impl Data {
     pub fn filter_date(&mut self) {
         self.entries = self.clone().entries.into_iter().filter(|e| !e.has_left(3)).filter(|e| e.has_begin(3)).collect();
     }
+
+    //pub fn initialize_signal_for_entries(&mut self) {
+    //    self.entries.iter_mut().for_each(|e| {
+    //        let (s, set_s) = create_signal(false);
+
+    //        e.selected = s;
+    //        e.set_selected = Some(set_s);
+    //    });
+    //}
 }
 
 impl Entry {
