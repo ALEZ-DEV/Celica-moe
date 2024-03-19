@@ -14,10 +14,10 @@
 
 ## Todo
 
-- [ ] Calendar
+- [x] Calendar
   - [x] Overview
-  - [ ] Detail (In progress)
-- [ ] Current banner overview
+  - [x] Detail
+- [ ] Current banner overview (In progress)
 - [ ] Player overview
   - [ ] Search player (by uid and username)
   - [ ] Player detail
