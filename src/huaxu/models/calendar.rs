@@ -95,9 +95,7 @@ impl Entry {
         if end_time.year() == 1970 {
             0
         } else {
-            // add 1 because when a day is like: 1 days and 5 hours,
-            // we want to count the ignored hours, so we add 1
-            time_left.num_days() + 1
+            time_left.num_days()
         }
     }
 

@@ -80,7 +80,9 @@ pub fn CalendarItemComponent(index: usize, entry: Entry, onclick: Callback<Mouse
                     }
                     } else {
                         view! {
-                            <h4>Time left : {entry.time_left()} days</h4>
+                            // add 1 because when a day is like: 1 days and 5 hours,
+                            // we want to count the ignored hours, so we add 1
+                            <h4>Time left : {entry.time_left() + 1} days</h4>
                         }
                     }
                     }}
