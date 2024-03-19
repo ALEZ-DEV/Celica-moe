@@ -1,1 +1,1 @@
-pub static DEFAULT_TAILWIND_CLASS: &str = "w-full bg-base-200 p-5 rounded-md";
+pub static DEFAULT_COMPONENT_TAILWIND_CLASS: &str = "w-full bg-base-200 p-5 rounded-md";

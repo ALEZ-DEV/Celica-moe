@@ -1,5 +1,5 @@
-use leptos::{component, create_signal, IntoView, SignalUpdate, spawn_local, view};
-use crate::components::calendar::CalendarComponent;
+use leptos::*;
+use crate::components::calendar::{CalendarComponent, CalendarDetailComponent};
 use crate::huaxu::api::fetch_calendar;
 use crate::huaxu::models::calendar::Calendar;
 
@@ -21,5 +21,13 @@ pub fn CalendarPages() -> impl IntoView {
     view! {
         <h1 class="text-center">Calendar</h1>
         <CalendarComponent calendar=calendar set_calendar=set_calendar/>
+        {move || match calendar() {
+            Some(c) => view! {
+                <Show when=move || c.data.entries.iter().find(|e| e.selected).is_some()>
+                    <CalendarDetailComponent calendar=calendar/>
+                </Show>
+            },
+            None => view! {}.into_view()
+        }}
     }
 }

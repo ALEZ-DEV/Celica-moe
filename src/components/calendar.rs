@@ -1,7 +1,8 @@
 use leptos::{Callable, Callback, CollectView, component, create_signal, IntoView, ReadSignal, SignalGet, SignalUpdate, spawn_local, view, WriteSignal};
 use leptos::leptos_dom::logging::console_log;
 use leptos::ev::MouseEvent;
-use crate::components::base::DEFAULT_TAILWIND_CLASS;
+use crate::components::base::DEFAULT_COMPONENT_TAILWIND_CLASS;
+use crate::components::item::ItemComponent;
 use crate::huaxu::api::fetch_calendar;
 use crate::huaxu::models::calendar::{Calendar, Entry};
 
@@ -9,7 +10,7 @@ use crate::huaxu::models::calendar::{Calendar, Entry};
 pub fn CalendarComponent(calendar: ReadSignal<Option<Calendar>>, set_calendar: WriteSignal<Option<Calendar>>) -> impl IntoView {
 
     view! {
-        <div class={DEFAULT_TAILWIND_CLASS}>
+        <div class={DEFAULT_COMPONENT_TAILWIND_CLASS}>
             <div class="grid grid-cols-5 text-center mb-0">
                 <div class="badge mx-auto badge-outline">"2 days ago"</div>
                 <div class="badge mx-auto badge-outline">"Yesterday"</div>
@@ -97,5 +98,30 @@ pub fn CalendarItemComponent(index: usize, entry: Entry, onclick: Callback<Mouse
                 if entry.time_left() < 3 { 3 - entry.time_left() } else { 0 },
                 if entry.time_passed() < 3 { 3 - entry.time_passed() } else { 0 })}
         </style>
+    }
+}
+
+#[component]
+pub fn CalendarDetailComponent(calendar: ReadSignal<Option<Calendar>>) -> impl IntoView {
+    let entry = move || calendar().unwrap().data.entries.iter().find(|e| e.selected).unwrap().clone();
+
+    console_log(&entry().description);
+
+    view! {
+        <div class={format!("{} mt-5", DEFAULT_COMPONENT_TAILWIND_CLASS)}>
+            <h3 class="text-center" style="margin-top: 0px;" /* mt-0 was not working, why ? ¯\_(ツ)_/¯ */ >{move || entry().name}</h3>
+            <div class="h-16 rounded-lg bg-fixed bg-right bg-local" style={format!("background-image: url('{}')", entry().get_banner_link())}></div>
+            {move || entry().description.split("\n").map(|s| s.to_string()).map(|s| view! {
+                <p>{s.clone()}</p>
+            }).collect_view()}
+            <div class="flex justify-start justify-items-center">
+                <h3 class="m-0 my-auto">"Rewards:"</h3>
+                {move || entry().items.iter().map(|item| view! {
+                    <div class="mx-1.5">
+                        <ItemComponent item=item/>
+                    </div>
+                }).collect_view()}
+            </div>
+        </div>
     }
 }

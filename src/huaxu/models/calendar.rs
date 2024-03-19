@@ -115,3 +115,9 @@ impl Entry {
         begin_time > self.get_start_time()
     }
 }
+
+impl Item {
+    pub fn get_icon_link(&self) -> String {
+        format!("https://assets.huaxu.app/cur/{}.png", self.icon)
+    }
+}
