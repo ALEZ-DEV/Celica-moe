@@ -1,4 +1,5 @@
 use leptos::{Callable, Callback, CollectView, component, create_signal, IntoView, ReadSignal, SignalGet, SignalUpdate, spawn_local, view, WriteSignal};
+use leptos::leptos_dom::logging::console_log;
 use leptos::ev::MouseEvent;
 use crate::components::base::DEFAULT_TAILWIND_CLASS;
 use crate::huaxu::api::fetch_calendar;
@@ -28,6 +29,7 @@ pub fn CalendarComponent(calendar: ReadSignal<Option<Calendar>>, set_calendar: W
                         Some(c) => c.data.entries.iter().enumerate().map(|(i, d)| view! {
                             <CalendarItemComponent index=i entry=d.clone() onclick=Callback::from(move |_| {
                                 if let Some(mut c) = calendar() {
+                                    console_log("updating selection");
                                     c.data.entries.iter_mut().for_each(|e| e.selected = false);
                                     c.data.entries[i].selected = true;
                                     set_calendar.update(|mut old_c| *old_c = Some(c));
@@ -40,7 +42,7 @@ pub fn CalendarComponent(calendar: ReadSignal<Option<Calendar>>, set_calendar: W
                     }}
                 </div>
 
-                <div class="h-full w-full col-start-1 row-start-1 hover:pointer-events-none">
+                <div class="h-full mx-auto col-start-1 row-start-1 hover:pointer-events-none">
                     <div class="bg-base-content w-[2px] bg-base-content col-span-1 h-full mx-auto"></div>
                 </div>
             </div>
@@ -51,13 +53,11 @@ pub fn CalendarComponent(calendar: ReadSignal<Option<Calendar>>, set_calendar: W
 #[component]
 pub fn CalendarItemComponent(index: usize, entry: Entry, onclick: Callback<MouseEvent>) -> impl IntoView {
     view! {
-        <div
-            on:click=onclick
-            class={if index.clone() == 0 { "h-14 mt-5" } else { "h-14" }}>
+        <div class={if index.clone() == 0 { "h-14 mt-5" } else { "h-14" }}>
             <div
                 style={format!("background-image: url('{}')", entry.get_banner_link())}
                 class={
-                    let class = "h-16 my-1.5 rounded-lg bg-fixed bg-right bg-local";
+                    let class = "h-16 rounded-lg bg-fixed bg-right bg-local";
                     let child_style = format!("child-with-margin-{}", index);
                     let select_style = if entry.selected {
                         "border-2 border-white"
@@ -67,7 +67,7 @@ pub fn CalendarItemComponent(index: usize, entry: Entry, onclick: Callback<Mouse
 
                 format!("{} {} {}", class, child_style, select_style)
                 } >
-                <div class="h-full rounded-lg bg-transparent px-2 text-left text-white font-bold bg-gradient-to-r from-black">
+                <div on:click=onclick class="h-full rounded-lg bg-transparent px-2 text-left text-white font-bold bg-gradient-to-r from-black">
                     <h3 class="my-0">{&entry.name}</h3>
                     {if entry.has_left(0) {
                         view! {
