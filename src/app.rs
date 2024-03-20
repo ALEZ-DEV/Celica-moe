@@ -3,7 +3,6 @@ use crate::components::menu::MenuComponent;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
-use crate::components::calendar::CalendarComponent;
 use crate::pages::characters::CharactersPages;
 use crate::pages::calendar::CalendarPages;
 use crate::pages::home::HomePage;

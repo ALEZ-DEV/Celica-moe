@@ -1,9 +1,8 @@
-use leptos::{Callable, Callback, CollectView, component, create_signal, IntoView, ReadSignal, SignalGet, SignalUpdate, spawn_local, view, WriteSignal};
+use leptos::{Callback, CollectView, component, IntoView, ReadSignal, SignalUpdate, view, WriteSignal};
 use leptos::leptos_dom::logging::console_log;
 use leptos::ev::MouseEvent;
 use crate::components::base::DEFAULT_COMPONENT_TAILWIND_CLASS;
 use crate::components::item::ItemComponent;
-use crate::huaxu::api::fetch_calendar;
 use crate::huaxu::models::calendar::{Calendar, Entry};
 
 #[component]
@@ -33,7 +32,7 @@ pub fn CalendarComponent(calendar: ReadSignal<Option<Calendar>>, set_calendar: W
                                     console_log("updating selection");
                                     c.data.entries.iter_mut().for_each(|e| e.selected = false);
                                     c.data.entries[i].selected = true;
-                                    set_calendar.update(|mut old_c| *old_c = Some(c));
+                                    set_calendar.update(|old_c| *old_c = Some(c));
                                 }
                             })/>
                         }).collect_view(),

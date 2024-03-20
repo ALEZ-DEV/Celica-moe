@@ -1,4 +1,4 @@
-use leptos::{component, view, IntoView, CollectView};
+use leptos::{component, view, IntoView};
 
 #[component]
 pub fn HomePage() -> impl IntoView {

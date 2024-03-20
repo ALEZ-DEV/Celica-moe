@@ -14,7 +14,7 @@ pub fn CalendarPages() -> impl IntoView {
         if let Ok(mut new_c) = future_calendar {
             new_c.data.filter_date();
             //new_c.data.initialize_signal_for_entries();
-            set_calendar.update(|mut c| *c = Some(new_c));
+            set_calendar.update(|c| *c = Some(new_c));
         }
     });
 
