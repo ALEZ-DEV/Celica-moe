@@ -1,5 +1,6 @@
 use chrono::{Datelike, DateTime, Local, TimeDelta, Utc};
 use serde::{Deserialize, Serialize};
+use crate::huaxu::models::item::Item;
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -31,17 +32,7 @@ pub struct Entry {
     //pub set_selected: Option<WriteSignal<bool>>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Item {
-    #[serde(rename = "type")]
-    pub type_field: String,
-    pub id: i64,
-    pub name: String,
-    pub quality: Option<i64>,
-    pub icon: String,
-    pub icon_big: String,
-}
+
 
 impl Data {
     pub fn filter_date(&mut self) {

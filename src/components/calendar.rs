@@ -62,7 +62,7 @@ pub fn CalendarItemComponent(index: usize, entry: Entry, onclick: Callback<Mouse
                     let select_style = if entry.selected {
                         "border-2 border-white"
                     } else {
-                        "hover:border-2 hover:border-white"
+                        "hover:border-2 hover:border-white cursor-pointer"
                     };
 
                 format!("{} {} {}", class, child_style, select_style)
