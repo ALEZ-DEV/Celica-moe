@@ -1,13 +1,17 @@
-use leptos::{Callback, CollectView, component, IntoView, ReadSignal, SignalUpdate, view, WriteSignal};
-use leptos::leptos_dom::logging::console_log;
-use leptos::ev::MouseEvent;
 use crate::components::base::DEFAULT_COMPONENT_TAILWIND_CLASS;
 use crate::components::item::ItemComponent;
 use crate::huaxu::models::calendar::{Calendar, Entry};
+use leptos::ev::MouseEvent;
+use leptos::leptos_dom::logging::console_log;
+use leptos::{
+    component, view, Callback, CollectView, IntoView, ReadSignal, SignalUpdate, WriteSignal,
+};
 
 #[component]
-pub fn CalendarComponent(calendar: ReadSignal<Option<Calendar>>, set_calendar: WriteSignal<Option<Calendar>>) -> impl IntoView {
-
+pub fn CalendarComponent(
+    calendar: ReadSignal<Option<Calendar>>,
+    set_calendar: WriteSignal<Option<Calendar>>,
+) -> impl IntoView {
     view! {
         <div class={DEFAULT_COMPONENT_TAILWIND_CLASS}>
             <div class="grid grid-cols-5 text-center mb-0">
@@ -37,21 +41,33 @@ pub fn CalendarComponent(calendar: ReadSignal<Option<Calendar>>, set_calendar: W
                             })/>
                         }).collect_view(),
                         None => view! {
-                            <span class="loading loading-spinner loading-lg m-auto"></span>
+                            {(0..4).map(|i| view! {
+                                <div class=format!("skeleton w-full h-14 {}", if i == 0 { "mt-5" } else { "" })></div>
+                            }).collect_view()}
                         }.into_view()
                     }}
                 </div>
 
-                <div class="h-full mx-auto col-start-1 row-start-1 hover:pointer-events-none">
-                    <div class="bg-base-content w-[2px] bg-base-content col-span-1 h-full mx-auto"></div>
-                </div>
+                {move || if calendar().is_some() {
+                    view! {
+                        <div class="h-full mx-auto col-start-1 row-start-1 hover:pointer-events-none">
+                            <div class="bg-base-content w-[2px] bg-base-content col-span-1 h-full mx-auto"></div>
+                        </div>
+                    }.into_view()
+                } else {
+                    view! {}.into_view()
+                }}
             </div>
         </div>
     }
 }
 
 #[component]
-pub fn CalendarItemComponent(index: usize, entry: Entry, onclick: Callback<MouseEvent>) -> impl IntoView {
+pub fn CalendarItemComponent(
+    index: usize,
+    entry: Entry,
+    onclick: Callback<MouseEvent>,
+) -> impl IntoView {
     view! {
         <div class={if index.clone() == 0 { "h-14 mt-5" } else { "h-14" }}>
             <div
@@ -102,7 +118,16 @@ pub fn CalendarItemComponent(index: usize, entry: Entry, onclick: Callback<Mouse
 
 #[component]
 pub fn CalendarDetailComponent(calendar: ReadSignal<Option<Calendar>>) -> impl IntoView {
-    let entry = move || calendar().unwrap().data.entries.iter().find(|e| e.selected).unwrap().clone();
+    let entry = move || {
+        calendar()
+            .unwrap()
+            .data
+            .entries
+            .iter()
+            .find(|e| e.selected)
+            .unwrap()
+            .clone()
+    };
 
     console_log(&entry().description);
 
