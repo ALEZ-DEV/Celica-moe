@@ -117,3 +117,4 @@ lib-profile-release = "wasm-release"
 # tailwind
 tailwind-input-file = "style/tailwind.css"
 tailwind-config-file = "tailwind.config.js"
+tailwind-version = "v3.4.1"
