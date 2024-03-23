@@ -19,6 +19,7 @@ pub enum HeroicIcons {
     CalendarDays,
     Users,
     UserGroup,
+    Bars3,
 }
 
 #[component]

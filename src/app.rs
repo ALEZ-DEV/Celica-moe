@@ -1,11 +1,11 @@
-use crate::error_template::{AppError, ErrorTemplate};
 use crate::components::menu::MenuComponent;
+use crate::error_template::{AppError, ErrorTemplate};
+use crate::pages::calendar::CalendarPages;
+use crate::pages::characters::CharactersPages;
+use crate::pages::home::HomePage;
 use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
-use crate::pages::characters::CharactersPages;
-use crate::pages::calendar::CalendarPages;
-use crate::pages::home::HomePage;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -32,18 +32,19 @@ pub fn App() -> impl IntoView {
             .into_view()
         }>
             <main>
-                <MenuComponent/>
-                <div class="pl-64 w-screen">
-                    <div class="flex justify-center">
-                        <div class="m-10 prose block w-full max-w-full">
-                            <Routes>
-                                    <Route path="" view=HomePage/>
-                                    <Route path="/calendar" view=CalendarPages/>
-                                    <Route path="/characters" view=CharactersPages/>
-                            </Routes>
-                        </div>
-                    </div>
-                </div>
+                <MenuComponent main_content=view! {
+                    <div class="lg:pl-64 w-screen">
+                                    <div class="flex justify-center">
+                                        <div class="m-10 prose block w-full max-w-full">
+                                            <Routes>
+                                                    <Route path="" view=HomePage/>
+                                                    <Route path="/calendar" view=CalendarPages/>
+                                                    <Route path="/characters" view=CharactersPages/>
+                                            </Routes>
+                                        </div>
+                                    </div>
+                                </div>
+                }.into_view()/>
             </main>
         </Router>
     }

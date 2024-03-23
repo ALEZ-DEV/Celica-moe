@@ -1,7 +1,8 @@
 use crate::icon::heroic_icon::{HeroicIcons, HeroicIconsType, Icon};
-use leptos::{component, view, CollectView, IntoView};
+use leptos::*;
 use rand::Rng;
 
+#[derive(Clone)]
 struct Page {
     pub label: String,
     pub link: String,
@@ -21,8 +22,43 @@ impl Page {
 }
 
 #[component]
-pub fn MenuComponent() -> impl IntoView {
-    let linked_pages = [
+pub fn MenuComponent(main_content: View) -> impl IntoView {
+    view! {
+        <div class="drawer lg:drawer-open">
+          <input id="responsive-drawer" type="checkbox" class="drawer-toggle" />
+          <div class="drawer-content flex flex-col items-center justify-center">
+            <MobileNavbarComponent/>
+            <div class="h-full">
+                {main_content}
+            </div>
+          </div>
+          <div class="drawer-side">
+            <label for="responsive-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+            <MenuContentComponent/>
+          </div>
+        </div>
+    }
+}
+
+#[component]
+fn MobileNavbarComponent() -> impl IntoView {
+    view! {
+        <div class="h-20 w-full bg-base-200 p-2 lg:hidden flex justify-between">
+            <label for="responsive-drawer" class="btn btn-outline drawer-button">
+                <Icon icon=HeroicIcons::Bars3 icon_type=HeroicIconsType::Solid/>
+            </label>
+
+            <a class="flex justify-end" href="/">
+                <h4 class="h-auto my-auto text-center">Celica.moe</h4>
+                <img src="/celica_pointing.png" class="size-12 mx-auto mb-1"/>
+            </a>
+        </div>
+    }
+}
+
+#[component]
+fn MenuContentComponent() -> impl IntoView {
+    let linked_pages = vec![
         Page::new("Home", "/", HeroicIcons::Home, HeroicIconsType::Outline),
         Page::new(
             "Calendar",
@@ -55,12 +91,13 @@ pub fn MenuComponent() -> impl IntoView {
         // If you want to add some stickers, put it in the /public folder and make a PR
     ];
     let mut rng = rand::thread_rng();
+    let random_img = *img_src.get(rng.gen_range(0..img_src.len())).unwrap();
 
     view! {
         <aside class="menu bg-base-200 flex justify-start fixed top-0 left-0 z-40 w-64 h-screen">
 
             <div class="prose">
-                <img src={*img_src.get(rng.gen_range(0..img_src.len())).unwrap()} class="size-40 mx-auto my-1 rounded-md"/>
+                <img src={random_img} class="size-40 mx-auto my-1 rounded-md"/>
                 <h2 class="mx-auto my-0 text-center">Celica.moe</h2>
             </div>
 
