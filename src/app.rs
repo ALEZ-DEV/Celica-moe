@@ -36,11 +36,13 @@ pub fn App() -> impl IntoView {
                     <div class="lg:pl-64 w-screen">
                                     <div class="flex justify-center">
                                         <div class="m-10 prose block w-full max-w-full">
-                                            <Routes>
+                                            <div class="lg:max-w-screen-lg lg:mx-auto">
+                                                <Routes>
                                                     <Route path="" view=HomePage/>
                                                     <Route path="/calendar" view=CalendarPages/>
                                                     <Route path="/characters" view=CharactersPages/>
-                                            </Routes>
+                                                </Routes>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
