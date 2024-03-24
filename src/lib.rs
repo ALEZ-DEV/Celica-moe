@@ -5,6 +5,7 @@ pub mod error_template;
 pub mod fileserv;
 pub mod huaxu;
 pub mod icon;
+pub mod kurogame;
 pub mod pages;
 pub mod utils;
 

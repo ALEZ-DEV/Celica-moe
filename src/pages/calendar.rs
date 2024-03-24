@@ -1,11 +1,11 @@
-use leptos::*;
+use crate::components::banners::BannersComponent;
 use crate::components::calendar::{CalendarComponent, CalendarDetailComponent};
 use crate::huaxu::api::fetch_calendar;
 use crate::huaxu::models::calendar::Calendar;
+use leptos::*;
 
 #[component]
 pub fn CalendarPages() -> impl IntoView {
-
     let (calendar, set_calendar) = create_signal(None::<Calendar>);
 
     spawn_local(async move {
@@ -29,5 +29,6 @@ pub fn CalendarPages() -> impl IntoView {
             },
             None => view! {}.into_view()
         }}
+        <BannersComponent/>
     }
 }
