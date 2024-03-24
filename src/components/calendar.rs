@@ -2,7 +2,6 @@ use crate::components::base::DEFAULT_COMPONENT_TAILWIND_CLASS;
 use crate::components::item::ItemComponent;
 use crate::huaxu::models::calendar::{Calendar, Entry};
 use leptos::ev::MouseEvent;
-use leptos::leptos_dom::logging::console_log;
 use leptos::{
     component, view, Callback, CollectView, IntoView, ReadSignal, SignalUpdate, WriteSignal,
 };
@@ -33,7 +32,6 @@ pub fn CalendarComponent(
                         Some(c) => c.data.entries.iter().enumerate().map(|(i, d)| view! {
                             <CalendarItemComponent index=i entry=d.clone() onclick=Callback::from(move |_| {
                                 if let Some(mut c) = calendar() {
-                                    console_log("updating selection");
                                     c.data.entries.iter_mut().for_each(|e| e.selected = false);
                                     c.data.entries[i].selected = true;
                                     set_calendar.update(|old_c| *old_c = Some(c));
@@ -110,7 +108,7 @@ pub fn CalendarItemComponent(
                 margin-right: calc(100% / 5 * {});
                 margin-left: calc(100% / 5 * {});
               }}"#, index,
-                if entry.time_left() < 3 { 3 - entry.time_left() } else { 0 },
+                if entry.time_left() < 2 { 2 - entry.time_left() } else { 0 },
                 if entry.time_passed() < 3 { 3 - entry.time_passed() } else { 0 })}
         </style>
     }
@@ -128,8 +126,6 @@ pub fn CalendarDetailComponent(calendar: ReadSignal<Option<Calendar>>) -> impl I
             .unwrap()
             .clone()
     };
-
-    console_log(&entry().description);
 
     view! {
         <div class={format!("{} mt-5", DEFAULT_COMPONENT_TAILWIND_CLASS)}>
