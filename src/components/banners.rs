@@ -1,9 +1,6 @@
 use leptos::{component, create_signal, spawn_local, view, IntoView, SignalUpdate};
 
-use crate::{
-    huaxu::{api::fetch_banner, models::banners::Banners},
-    kurogame::api::fetch_notice,
-};
+use crate::huaxu::{api::fetch_banner, models::banners::Banners};
 
 #[component]
 pub fn BannersComponent() -> impl IntoView {
