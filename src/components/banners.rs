@@ -1,6 +1,14 @@
-use leptos::{component, create_signal, spawn_local, view, IntoView, SignalUpdate};
+use leptos::{
+    component, create_signal, leptos_dom::logging::console_log, spawn_local, view, IntoView,
+    SignalUpdate,
+};
 
-use crate::huaxu::{api::fetch_banner, models::banners::Banners};
+use crate::huaxu::{
+    api::fetch_banner,
+    models::banners::{Banner, Banners},
+};
+
+use crate::kurogame::api::fetch_notice;
 
 #[component]
 pub fn BannersComponent() -> impl IntoView {
@@ -9,12 +17,22 @@ pub fn BannersComponent() -> impl IntoView {
     spawn_local(async move {
         let future_banner = fetch_banner().await;
 
+        console_log(&format!("{:?}", future_banner));
+
         if let Ok(mut b) = future_banner {
-            b.data.groups.iter_mut().for_each(|g| {
-                g.banners.iter_mut().for_each(|inner_b| {
-                    inner_b.fetch_main_banner();
-                })
-            });
+            let notice = fetch_notice().await;
+
+            if let Ok(n) = notice {
+                b.data.groups.iter_mut().for_each(|g| {
+                    console_log(&format!("{:?}", g));
+                    g.banners.iter_mut().for_each(|inner_b: &mut Banner| {
+                        console_log("bon");
+                        inner_b.fetch_main_banner(&n);
+                        console_log(&format!("{:?}", inner_b));
+                    })
+                });
+            }
+
             //new_c.data.initialize_signal_for_entries();
             set_banners.update(|old_b| *old_b = Some(b));
         }

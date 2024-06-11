@@ -29,6 +29,6 @@ pub fn CalendarPages() -> impl IntoView {
             },
             None => view! {}.into_view()
         }}
-        <BannersComponent/>
+        //<BannersComponent/>
     }
 }

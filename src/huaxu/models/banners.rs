@@ -1,8 +1,10 @@
 use crate::huaxu::models::item::Item;
 use crate::kurogame::api::fetch_notice;
+use crate::kurogame::models::game_notice::GameNotice;
 use chrono::DateTime;
 use chrono::TimeZone;
 use chrono::Utc;
+use leptos::leptos_dom::logging::console_log;
 use serde::Deserialize;
 use serde::Serialize;
 
@@ -81,25 +83,34 @@ impl Banner {
         }
     }
 
-    pub async fn fetch_main_banner(&mut self) -> anyhow::Result<()> {
+    pub fn fetch_main_banner(&mut self, notice: &GameNotice) -> anyhow::Result<()> {
         if self.start_time.is_some() && self.start_time.is_some() {
-            let notice = fetch_notice().await?;
-
             let start_time = self.get_start_time();
             let end_time = self.get_end_time();
 
-            let banner = notice
-                .content
-                .iter()
-                .find(|x| {
-                    Utc.timestamp_opt(x.begin_time, 0).unwrap() == start_time
-                        && Utc.timestamp_opt(x.end_time, 0).unwrap() == end_time
-                })
-                .unwrap()
-                .pic_addr
-                .clone();
+            console_log(&format!("banner start time: {}", start_time));
+            console_log(&format!("banner start time: {}", end_time));
 
-            self.main_banner = Some(banner);
+            let content = notice.content.iter().find(|x| {
+                console_log(&format!(
+                    "banner start time: {}",
+                    Utc.timestamp_opt(x.begin_time, 0).unwrap()
+                ));
+                console_log(&format!(
+                    "banner start time: {}",
+                    Utc.timestamp_opt(x.end_time, 0).unwrap()
+                ));
+                Utc.timestamp_opt(x.begin_time, 0).unwrap() == start_time
+                    && Utc.timestamp_opt(x.end_time, 0).unwrap() == end_time
+            });
+
+            if let Some(c) = content {
+                let banner = c.pic_addr.clone();
+
+                console_log(&banner);
+
+                self.main_banner = Some(banner);
+            }
         }
 
         Ok(())

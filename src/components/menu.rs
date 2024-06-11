@@ -66,12 +66,12 @@ fn MenuContentComponent() -> impl IntoView {
             HeroicIcons::CalendarDays,
             HeroicIconsType::Solid,
         ),
-        Page::new(
-            "Your characters",
-            "/characters",
-            HeroicIcons::UserGroup,
-            HeroicIconsType::Solid,
-        ),
+        //Page::new(
+        //    "Your characters",
+        //    "/characters",
+        //    HeroicIcons::UserGroup,
+        //    HeroicIconsType::Solid,
+        //),
     ];
 
     let img_src = [
